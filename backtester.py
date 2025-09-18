@@ -15,20 +15,14 @@ def run_backtest(ticker="AAPL", start="2020-01-01", end="2023-01-01", short_ma=2
         long_ma (int): Long-term moving average window
     """
 
-    # ------------------------------
-    # 1. Download Stock Data
-    # ------------------------------
+    Download Stock Data
     data = yf.download(ticker, start=start, end=end)
 
-    # ------------------------------
-    # 2. Create Moving Averages
-    # ------------------------------
+    #Create Moving Averages
     data[f"SMA{short_ma}"] = data['Close'].rolling(window=short_ma).mean()
     data[f"SMA{long_ma}"] = data['Close'].rolling(window=long_ma).mean()
 
-    # ------------------------------
-    # 3. Generate Trading Signals
-    # ------------------------------
+    #Generate Trading Signals
     data['Signal'] = 0
     data.loc[data[f"SMA{short_ma}"] > data[f"SMA{long_ma}"], 'Signal'] = 1
     data.loc[data[f"SMA{short_ma}"] < data[f"SMA{long_ma}"], 'Signal'] = -1
@@ -36,24 +30,18 @@ def run_backtest(ticker="AAPL", start="2020-01-01", end="2023-01-01", short_ma=2
     # Shift by 1 day to avoid lookahead bias
     data['Position'] = data['Signal'].shift(1)
 
-    # ------------------------------
-    # 4. Calculate Returns
-    # ------------------------------
+    # Calculate Returns
     data['Market Return'] = data['Close'].pct_change()
     data['Strategy Return'] = data['Market Return'] * data['Position']
 
     data['Cumulative Market'] = (1 + data['Market Return']).cumprod()
     data['Cumulative Strategy'] = (1 + data['Strategy Return']).cumprod()
 
-    # ------------------------------
-    # 5. Buy/Sell Points
-    # ------------------------------
+    #Buy/Sell Points
     buy_signals = data[(data['Position'] == 1) & (data['Position'].shift(1) != 1)]
     sell_signals = data[(data['Position'] == -1) & (data['Position'].shift(1) != -1)]
 
-    # ------------------------------
-    # 6. Performance Metrics
-    # ------------------------------
+    #Performance Metrics
     days = (data.index[-1] - data.index[0]).days
 
     # CAGR
@@ -92,9 +80,8 @@ def run_backtest(ticker="AAPL", start="2020-01-01", end="2023-01-01", short_ma=2
     print(f"Buy & Hold MaxDD:  {max_dd_market:.2%}")
     print(f"Strategy MaxDD:    {max_dd_strategy:.2%}")
 
-    # ------------------------------
-    # 7. Plot Results
-    # ------------------------------
+
+    # Plot Results
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12,10), sharex=True)
 
     # Top plot: cumulative returns
