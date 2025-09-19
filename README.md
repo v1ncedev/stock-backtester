@@ -10,15 +10,15 @@ Features
 -Avoid lookahead bias by shifting signals 
 
 Compute key performance metrics: 
--CAGR (Compound Annual Growth Rate) 
--Volatility (annualized) 
--Sharpe Ratio 
--Maximum Drawdown
+ -CAGR (Compound Annual Growth Rate) 
+ -Volatility (annualized) 
+ -Sharpe Ratio 
+ -Maximum Drawdown
 
 Visualize: 
--Cumulative returns (Buy & Hold vs Strategy)
--Price chart with buy/sell markers
--Flexible function: run backtests on any stock, any timeframe, any MA lengths
+ -Cumulative returns (Buy & Hold vs Strategy)
+ -Price chart with buy/sell markers
+ -Flexible function: run backtests on any stock, any timeframe, any MA lengths
 
 Installation 
 Clone this repository and install the required packages:
