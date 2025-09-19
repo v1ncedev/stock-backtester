@@ -22,7 +22,7 @@ Visualize:
 
 Installation 
 Clone this repository and install the required packages:
-bash
+```bash
 git clone https://github.com/v1ncedev/stock-backtester.git
 cd stock-backtester
 pip install -r requirements.txt
